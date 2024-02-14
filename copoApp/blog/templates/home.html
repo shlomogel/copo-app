@@ -1,0 +1,13 @@
+<h1>
+    CoPo
+</h1>
+<h3>CostumerPower</h3>
+
+{% for post in object_list %}
+<div>
+    <h2>{{ post.title }}</h2>
+    <img src="{{ post.img_url }}" alt="{{ post.img_url }}"> <br>
+    <p dir="rtl">{{ post.description }}</p>
+</div>
+    
+{% endfor %}
