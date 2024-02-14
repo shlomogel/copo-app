@@ -3,11 +3,21 @@
 </h1>
 <h3>CostumerPower</h3>
 
-{% for post in object_list %}
+{% for product in object_list %}
 <div>
-    <h2>{{ post.title }}</h2>
-    <img src="{{ post.img_url }}" alt="{{ post.img_url }}"> <br>
-    <p dir="rtl">{{ post.description }}</p>
+    <h2>{{ product.title }}</h2>
+    <img src="{{ product.img_url }}" alt="{{ product.img_url }}"> <br>
+    <p dir="rtl">{{ product.description }}</p>
+    <p>
+        <del>{{ product.original_price }}</del> - {{ product.discount_price }}
+    </p>
+    <p>
+        {{ product.date_published }} 
+        {% if product.tags.all %}
+            | {{ product.tags }}
+        {% endif %}
+    </p>
+
 </div>
     
 {% endfor %}
