@@ -1,22 +1,28 @@
-<h1>
-    CoPo
-</h1>
-<h3>CostumerPower</h3>
-<ul>
-    {% for product in object_list %}
-    <li>
-        <a href="{% url 'product-detail'  product.pk %}">
-            <h2>{{ product.title }}</h2>
-        </a>
-        <img src="{{ product.img_url }}" alt="{{ product.img_url }}"> <br>
-        <p dir="rtl">{{ product.description }}</p>
-        <del>{{ product.original_price }}</del> - {{ product.discount_price }}
-        <p>
-            {{ product.date_published }} 
-            {% if product.tags.all %}
-                | {{ product.tags }}
-            {% endif %}
-        </p>
-    </li>
-</ul>
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block title %}
+<title>
+    CoPo | CostumerPower
+</title>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for product in object_list %}
+        <li>
+            <a href="{% url 'product-detail'  product.pk %}">
+                <h2>{{ product.title }}</h2>
+            </a>
+            <img src="{{ product.img_url }}" alt="{{ product.img_url }}"> <br>
+            <p dir="rtl">{{ product.description }}</p>
+            <del>{{ product.original_price }}</del> - {{ product.discount_price }}
+            <p>
+                {{ product.date_published }} 
+                {% if product.tags.all %}
+                    | {{ product.tags }}
+                {% endif %}
+            </p>
+        </li>
+    </ul>
+    {% endfor %}
+{% endblock %}
