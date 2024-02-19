@@ -1,8 +1,6 @@
-<!-- product_detail.html -->
 
-<!-- {% extends 'base.html' %} -->
-{% block content %}
     <h1>{{ product.title }}</h1>
+    <img src="{{ product.img_url }}" alt="{{ product.img_url }}"> <br>
     <p>{{ product.description }}</p>
     <p>Original Price: ${{ product.original_price }}</p>
     <p>Discounted Price: ${{ product.discount_price }}</p>
@@ -14,4 +12,4 @@
             <li>{{ comment.date }}</li>
         {% endfor %}
     </ul>
-{% endblock %}
+
