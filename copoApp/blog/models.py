@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -20,6 +21,7 @@ class Product(models.Model):
     tags = models.ManyToManyField(to=Tag, related_name="products", blank=True)
     original_price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2)
+    due_date = models.DateField(default=datetime.now() + timedelta(weeks=2))
 
     def __str__(self):
         return self.title

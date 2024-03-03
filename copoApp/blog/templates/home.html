@@ -24,9 +24,13 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
                     <p class="card-text text-body-secondary" dir="rtl">
-                         💵 <strong>מחיר:</strong> {{product.discount_price }}
+                         <br>
+                         💵 <strong>מחיר: {{product.discount_price }}</strong>
                          <br>
                          🚚 <strong>כולל משלוח עד הבית!!!</strong>
+                         <br>
+                         <br>
+                         📅 קבוצת הרכישה תסגר בתאריך: <strong>{{ product.due_date }}</strong>
                     </p>
                     <div class="text-center">
                         <a href="#" class="btn btn-primary">לקבוצת רכישה  <i class="fa fa-telegram" aria-hidden="true"></i></a>
