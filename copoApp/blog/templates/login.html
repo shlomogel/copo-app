@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>
+    CoPo | Login Page
+</title>
+{% endblock %}
+{% block content %}
+<br>
+<br>
+
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Enter Your Username" name="username">
+  </div>
+  <div class="mb-3">
+    <input type="password" class="form-control" placeholder="Enter Your Password" name="password">
+  </div>
+  <button type="submit" class="btn btn-secondary">Login</button>
+</form>
+    
+{% endblock %}

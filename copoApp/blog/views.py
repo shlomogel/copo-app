@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Product
 from .forms import ProductForm
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth import login, logout, authenticate
+from django.contrib import messages
 
 
 class HomeView(ListView):
@@ -31,3 +33,24 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_superuser
+
+
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+        else:
+            messages.success(request, (f"There was an error"))
+            return redirect("login")
+    else:
+        return render(request, "login.html", {})
+
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, ("You have been logout..."))
+    return redirect("home")

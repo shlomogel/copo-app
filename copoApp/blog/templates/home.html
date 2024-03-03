@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+<style>
+    .card-img-top {
+        width: 50%;
+        height: auto;
+    }
+</style>
 
 {% block title %}
 <title>
@@ -7,22 +13,28 @@
 {% endblock %}
 
 {% block content %}
-    <ul>
+<div class="container">
+    <div class="row">
         {% for product in object_list %}
-        <li>
-            <a href="{% url 'product-detail'  product.pk %}">
-                <h2>{{ product.title }}</h2>
-            </a>
-            <img src="{{ product.img_url }}" alt="{{ product.img_url }}"> <br>
-            <p dir="rtl">{{ product.description }}</p>
-            <del>{{ product.original_price }}</del> - {{ product.discount_price }}
-            <p>
-                {{ product.date_published }} 
-                {% if product.tags.all %}
-                    | {{ product.tags }}
-                {% endif %}
-            </p>
-        </li>
-    </ul>
-    {% endfor %}
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <a href="{% url 'product-detail' product.pk %}">
+                    <img src="{{ product.img_url }}" class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text text-body-secondary" dir="rtl">
+                         💵 <strong>מחיר:</strong> {{product.discount_price }}
+                         <br>
+                         🚚 <strong>כולל משלוח עד הבית!!!</strong>
+                    </p>
+                    <div class="text-center">
+                        <a href="#" class="btn btn-primary">לקבוצת רכישה  <i class="fa fa-telegram" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

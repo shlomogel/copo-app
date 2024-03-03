@@ -17,7 +17,7 @@ class Product(models.Model):
     likes = models.IntegerField(default=0)
     saved_by = models.ManyToManyField(User, related_name="saved_posts")
     date_published = models.DateTimeField(auto_now_add=True)
-    tags = models.ManyToManyField(Tag, related_name="products", blank=True)
+    tags = models.ManyToManyField(to=Tag, related_name="products", blank=True)
     original_price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2)
 
