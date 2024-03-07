@@ -1,5 +1,4 @@
 <!-- add_product.html -->
-
 {% extends 'base.html' %}
 {% block title %}
 <title>
@@ -13,11 +12,16 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <!-- Additional field for main image -->
+        <label for="id_main_image">Main Image URL:</label>
+        <input type="url" id="id_main_image" name="main_image" class="form-control">
+
+        <!-- Additional field for product images -->
+        <label for="id_images">Additional Images URL:</label>
+        <input type="url" id="id_images" name="images" class="form-control">
+
         <button type="submit" class="btn btn-secondary">Add Product</button>
-
+    </form>
 </div>
-{% else %}
-<p>You are not logged in as a superuser.</p>
 {% endif %}
-
 {% endblock %}

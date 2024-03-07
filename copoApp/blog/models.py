@@ -12,7 +12,7 @@ class Tag(models.Model):
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
-    img_url = models.URLField()
+    main_image = models.URLField()
     group_url = models.URLField()
     description = models.TextField()
     likes = models.IntegerField(default=0)
@@ -25,6 +25,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="images"
+    )
+    img_url = models.URLField()
+
+    def __str__(self):
+        return f"Image for {self.product.title}"
 
 
 class Comment(models.Model):

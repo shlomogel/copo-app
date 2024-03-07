@@ -1,11 +1,21 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
-from .models import Product
-from .forms import ProductForm
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    DeleteView,
+    UpdateView,
+)
+from .models import Product, ProductImage
+from .forms import ProductForm, SignUpForm
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 
 
 class HomeView(ListView):
@@ -25,6 +35,15 @@ class ProductDetailView(DetailView):
         return context
 
 
+class ProductDeleteView(SuccessMessageMixin, DeleteView):
+    model = Product
+    template_name = "product_confirm_delete.html"
+    success_url = reverse_lazy("home")
+
+    def get_success_message(self, cleaned_data):
+        return f"Product '{self.kwargs}' deleted successfully."
+
+
 class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Product
     form_class = ProductForm
@@ -33,6 +52,16 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.is_superuser
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        # Save the main product first
+        response = super().form_valid(form)
+        # Then handle additional images
+        additional_images = self.request.POST.get("images", "").split(",")
+        for img_url in additional_images:
+            ProductImage.objects.create(product=form.instance, img_url=img_url.strip())
+        return response
 
 
 def login_user(request):
@@ -58,3 +87,22 @@ def logout_user(request):
 
 def about(request):
     return render(request, "about.html")
+
+
+def register_user(request):
+    form = SignUpForm()
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password1"]
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, ("You been registered"))
+            return redirect("home")
+        else:
+            messages.success(request, (f"Ops "))
+            return redirect("register")
+
+    return render(request, "register.html", {"form": form})

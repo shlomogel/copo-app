@@ -1,0 +1,34 @@
+<!-- add_product.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ object.id }} מחק
+{% endblock %}
+
+{% block content %}
+    <div dir="rtl">
+        <h1>
+            {{ object.id }} מחק
+        </h1>
+        <p>
+            האם אתה בטוח שאתה רוצה למחוק?
+        </p>
+        <p>
+            תוכן:
+        </p>
+        <h5>
+            {{ object.title }}
+        </h5>
+       
+        <form method="post"
+              novalidate>
+            {% csrf_token %}
+
+            <button class="btn btn-danger">
+                Delete
+            </button>
+        </form>
+    </div>
+{% endblock %}
+
+

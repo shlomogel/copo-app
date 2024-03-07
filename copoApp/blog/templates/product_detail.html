@@ -20,5 +20,6 @@
     </ul>
     <br>
     <a href="{% url 'home' %}" class="btn btn-secondary">חזור </a>
+    <a class="btn btn-danger me-1" href="{% url "delete" object.id %}">Delete</a>
     
 {% endblock %}
