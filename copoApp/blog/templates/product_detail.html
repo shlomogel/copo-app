@@ -5,21 +5,56 @@
 </title>
 {% endblock %}
 {% block content %}
-    <h1>{{ product.title }}</h1>
-    <img src="{{ product.img_url }}" alt="{{ product.img_url }}"> <br>
-    <p>{{ product.description }}</p>
-    <p>Original Price: ${{ product.original_price }}</p>
-    <p>Discounted Price: ${{ product.discount_price }}</p>
-    <!-- Display comments -->
-    <h2>Comments:</h2>
-    <ul>
-        {% for comment in comments %}
-            <li>{{ comment.comment }}</li>
-            <li>{{ comment.date }}</li>
-        {% endfor %}
-    </ul>
-    <br>
-    <a href="{% url 'home' %}" class="btn btn-secondary">חזור </a>
-    <a class="btn btn-danger me-1" href="{% url "delete" object.id %}">Delete</a>
-    
+<div class="row">
+    <div class="col-md-8">
+        <div dir="rtl">
+        <h1>{{ product.title }}</h1>
+        <br>
+        {% comment %} <img src="{{ product.main_image }}" alt="{{ product.title }}" class="img-fluid"> <br> {% endcomment %}
+        <p>{{ product.description }}</p>
+        <br>
+        💸 <strong>מחיר: {{product.discount_price }}</strong>
+        <br>
+        🚚 <strong>כולל משלוח עד הבית!!!</strong>
+        <br>
+        <br>
+        <br>
+        {% comment %} <a href="{% url 'home' %}" class="btn btn-secondary">חזור</a> {% endcomment %}
+        <a class="btn btn-danger me-1" href="{% url 'delete' object.id %}">Delete</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+            <div class="carousel-inner">
+                {% for image in product.images.all %}
+                <div class="carousel-item active">
+                    <img src="{{ image.img_url }}" alt="{{ product.title }}" class="w-75 p-3">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div> 
+</div>
+<div class="row">
+     <!-- Display comments -->
+        <h2>Comments:</h2>
+            <ul class="list-group">
+                {% for comment in comments %}
+                    <li class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <p class="mb-1">{{ comment.comment }}</p>
+                            <small>{{ comment.date|date:"DATETIME_FORMAT" }}</small>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+</div>
 {% endblock %}
